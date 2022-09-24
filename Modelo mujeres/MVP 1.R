@@ -11,10 +11,10 @@ casen2013 = filter(casen2013,casen2013$s5 != "99.0")
 casen2015 = filter(casen2015,casen2015$s4 != "99.0")
 casen2017 = filter(casen2017,casen2017$s4 != "99.0")
 
-View(casen2011) # lista
-View(casen2013) # lista
-View(casen2015) # lista
-View(casen2017) # lista
+#View(casen2011) # lista
+#View(casen2013) # lista
+#View(casen2015) # lista
+#View(casen2017) # lista
 
 # 1 Nunca asisitió
 # 2 Jardín Infantil / Sala Cuna
@@ -87,3 +87,87 @@ mujeres2017$o10 = as.numeric(mujeres2017$o10)
 mujeres2017$o26 = as.numeric(mujeres2017$o26)
 mujeres2017$e6a = as.numeric(mujeres2017$e6a)
 
+#### 2011 - 2013 ####
+#### importa: region, sexo, edad s7, s8, e6a y e6b
+columnas_11_13 = c("id", "region", "sexo", "edad", "s7", "s8", "ytrabaj", "ytrabhaj","o10", "o27", "e6a", "e6b")
+m11.m13 = data.frame(matrix(nrow = 0,ncol = 12))
+colnames(m11.m13) = columnas_11_13
+
+#### 2011-2013
+id = 1
+contador = 0
+for(i in 1:15){
+  alternativa1 = filter(mujeres2011,mujeres2011$region == i)
+  alternativa3 = filter(mujeres2013,mujeres2013$region == i)
+  for(j in 1:length(alternativa1$region)){
+    z = 0
+    j = alternativa1[j, ]
+    for(k in 1:length(alternativa3$region)){
+      k = alternativa3[k, ]
+      if(j$sexo == k$sexo){
+        if(j$edad == k$edad){
+          if(j$s7 == 0){
+            if(j$s8 == k$s6 - 2){ # contrafactual con hijos
+              if(z == 0){
+                rbind(m11.m13,j)
+                contador = contador + 1
+                m11.m13[contador,1] == id
+                z = 1
+                rbind(m11.m13,k)
+                contador = contador + 1
+                m11.m13[contador,1] == id
+                id = id + 1
+              }else{
+                rbind(m11.m13,k)
+                contador = contador + 1
+                m11.m13[contador,1] == id
+              }
+            }else if(k$s6 == 0){ # contrafactual sin hijos
+              if(z == 0){
+                rbind(m11.m13,j)
+                contador = contador + 1
+                m11.m13[contador,1] == id
+                z = 1
+                rbind(m11.m13,k)
+                contador = contador + 1
+                m11.m13[contador,1] == id
+                id = id + 1
+              }else{
+                rbind(m11.m13,k)
+                contador = contador + 1
+                m11.m13[contador,1] == id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+#contador = 1
+#for(i in 1:length(mujeres2011$region)){
+#  z = 0
+#  i = mujeres2011[i,]
+#  for(j in 1:length(mujeres2013$region)){
+#    j = mujeres2013[j,]
+#    if(i$region == j$region){
+#      if(i$sexo == j$sexo){
+#        if(i$edad == j$edad - 2){
+#          if(i$s7 == 0){
+#            if(i$s8 == j$s6 - 2){ # contrafactual con hijos
+#              z = 1
+#            }else if(j$s6 == 0){   # contrafactual sin hijos
+#              z = 2
+#            }
+#          }
+#        }
+#      }
+#    }
+#  }
+#  if(z != 0){
+    #print(i)
+#  }
+#}
+
+#View(m11.m13)
