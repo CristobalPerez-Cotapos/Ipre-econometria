@@ -94,48 +94,52 @@ m11.m13 = data.frame(matrix(nrow = 0,ncol = 12))
 colnames(m11.m13) = columnas_11_13
 
 #### 2011-2013
-id = 1
+id = 0
 contador = 0
 for(i in 1:15){
-  alternativa1 = filter(mujeres2011,mujeres2011$region == i)
+  alternativa1 = filter(mujeres2011,mujeres2011$region == i,mujeres2011$s7 == 0)
   alternativa3 = filter(mujeres2013,mujeres2013$region == i)
   for(j in 1:length(alternativa1$region)){
     z = 0
+   # print(id)
     j = alternativa1[j, ]
     for(k in 1:length(alternativa3$region)){
+      print(id)
       k = alternativa3[k, ]
       if(j$sexo == k$sexo){
-        if(j$edad == k$edad){
-          if(j$s7 == 0){
-            if(j$s8 == k$s6 - 2){ # contrafactual con hijos
-              if(z == 0){
-                rbind(m11.m13,j)
-                contador = contador + 1
-                m11.m13[contador,1] == id
-                z = 1
-                rbind(m11.m13,k)
-                contador = contador + 1
-                m11.m13[contador,1] == id
-                id = id + 1
-              }else{
-                rbind(m11.m13,k)
-                contador = contador + 1
-                m11.m13[contador,1] == id
-              }
-            }else if(k$s6 == 0){ # contrafactual sin hijos
-              if(z == 0){
-                rbind(m11.m13,j)
-                contador = contador + 1
-                m11.m13[contador,1] == id
-                z = 1
-                rbind(m11.m13,k)
-                contador = contador + 1
-                m11.m13[contador,1] == id
-                id = id + 1
-              }else{
-                rbind(m11.m13,k)
-                contador = contador + 1
-                m11.m13[contador,1] == id
+        if(j$edad == k$edad - 2){
+          if(j$e6a == k$e6a || j$e6a == k$e6a - 1){
+            if(j$s7 == 0){
+              if(k$s5 > 0){ # contrafactual con hijos
+                if(z == 0){
+                  id = id + 1
+                  rbind(m11.m13,j)
+                  contador = contador + 1
+                  m11.m13[contador,1] == id
+                  z = 1
+                  rbind(m11.m13,k)
+                  contador = contador + 1
+                  m11.m13[contador,1] == id
+                }else{
+                  rbind(m11.m13,k)
+                  contador = contador + 1
+                  m11.m13[contador,1] == id
+                }
+              }else if(k$s5 == 0){ # contrafactual sin hijos
+                if(z == 0){
+                  id = id + 1
+                  rbind(m11.m13,j)
+                  contador = contador + 1
+                  m11.m13[contador,1] == id
+                  z = 1
+                  rbind(m11.m13,k)
+                  contador = contador + 1
+                  m11.m13[contador,1] == id
+                }else{
+                  rbind(m11.m13,k)
+                  contador = contador + 1
+                  m11.m13[contador,1] == id
+                }
               }
             }
           }
