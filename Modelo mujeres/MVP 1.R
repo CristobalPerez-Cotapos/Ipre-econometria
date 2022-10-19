@@ -100,8 +100,8 @@ colnames(mujeres2013) = columnas_11_13
 id = 0
 vector_id = c()
 for(i in 1:15){
-  alternativa1 = filter(mujeres2011,mujeres2011$region == i,mujeres2011$s7 == 0,mujeres2011$edad > 9)
-  alternativa3 = filter(mujeres2013,mujeres2013$region == i,mujeres2013$edad > 9)
+  alternativa1 = filter(mujeres2011,mujeres2011$region == i,mujeres2011$s7 == 0,mujeres2011$edad > 9, mujeres2011$region == 1, mujeres2011$ytrabaj == 0)
+  alternativa3 = filter(mujeres2013,mujeres2013$region == i,mujeres2013$edad > 9, mujeres2013$region == 1, mujeres2013$ytrabaj == 0)
   View(m11_m13)
   print(vector_id)
   for(j in 1:length(alternativa1$region)){
@@ -146,7 +146,9 @@ for(i in 1:15){
     }
   }
 }
-
+hola = filter(mujeres2011,mujeres2011$region == i,mujeres2011$s7 == 0,mujeres2011$edad > 9, mujeres2011$region == 1, mujeres2011$ytrabaj == 0)
+length(hola$region)
+View(m11_m13)
 m11_m13 = cbind(m11_m13, vector_id)
 write.csv(m11_m13,"m11m13.csv")
 
