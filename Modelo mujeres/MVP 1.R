@@ -39,10 +39,10 @@ mujeres2013 = filter(casen2013, casen2013$sexo == 2)
 mujeres2015 = filter(casen2015, casen2015$sexo == 2)
 mujeres2017 = filter(casen2017, casen2017$sexo == "2.0")
 
-View(mujeres2011)
-View(mujeres2013)
-View(mujeres2015)
-View(mujeres2017)
+#View(mujeres2011)
+#View(mujeres2013)
+#View(mujeres2015)
+#View(mujeres2017)
 
 mujeres2011$region = as.numeric(mujeres2011$region)
 mujeres2011$sexo = as.numeric(mujeres2011$sexo)
@@ -89,53 +89,55 @@ mujeres2017$e6a = as.numeric(mujeres2017$e6a)
 
 #### 2011 - 2013 ####
 #### importa: region, sexo, edad s7, s8, e6a y e6b
-columnas_11_13 = c("id", "region", "sexo", "edad", "s7", "s8", "ytrabaj", "ytrabhaj","o10", "o27", "e6a", "e6b")
-m11.m13 = data.frame(matrix(nrow = 0,ncol = 12))
-colnames(m11.m13) = columnas_11_13
+columnas_11_13 = c("region", "sexo", "edad", "s7", "s8", "ytrabaj", "ytrabhaj","o10", "o27", "e6a", "e6b")
+m11_m13 = data.frame(matrix(nrow = 0,ncol = 11))
+colnames(m11_m13) = columnas_11_13
+
+#### nombrar columnas
+colnames(mujeres2013) = columnas_11_13
 
 #### 2011-2013
-id = 1
-contador = 0
+id = 0
+vector_id = c()
 for(i in 1:15){
-  alternativa1 = filter(mujeres2011,mujeres2011$region == i)
-  alternativa3 = filter(mujeres2013,mujeres2013$region == i)
+  alternativa1 = filter(mujeres2011,mujeres2011$region == i,mujeres2011$s7 == 0,mujeres2011$edad > 9, mujeres2011$region == 1, mujeres2011$ytrabaj == 0)
+  alternativa3 = filter(mujeres2013,mujeres2013$region == i,mujeres2013$edad > 9, mujeres2013$region == 1, mujeres2013$ytrabaj == 0)
+  View(m11_m13)
+  print(vector_id)
   for(j in 1:length(alternativa1$region)){
     z = 0
+    print(id)
     j = alternativa1[j, ]
     for(k in 1:length(alternativa3$region)){
       k = alternativa3[k, ]
       if(j$sexo == k$sexo){
-        if(j$edad == k$edad){
-          if(j$s7 == 0){
-            if(j$s8 == k$s6 - 2){ # contrafactual con hijos
-              if(z == 0){
-                rbind(m11.m13,j)
-                contador = contador + 1
-                m11.m13[contador,1] == id
-                z = 1
-                rbind(m11.m13,k)
-                contador = contador + 1
-                m11.m13[contador,1] == id
-                id = id + 1
-              }else{
-                rbind(m11.m13,k)
-                contador = contador + 1
-                m11.m13[contador,1] == id
-              }
-            }else if(k$s6 == 0){ # contrafactual sin hijos
-              if(z == 0){
-                rbind(m11.m13,j)
-                contador = contador + 1
-                m11.m13[contador,1] == id
-                z = 1
-                rbind(m11.m13,k)
-                contador = contador + 1
-                m11.m13[contador,1] == id
-                id = id + 1
-              }else{
-                rbind(m11.m13,k)
-                contador = contador + 1
-                m11.m13[contador,1] == id
+        if(j$edad == k$edad - 2){
+          if(j$e6a == k$e6a || j$e6a == k$e6a - 1){
+            if(j$s7 == 0){
+              if(k$s7 > 0){ # contrafactual con hijos
+                if(z == 0){
+                  id = id + 1
+                  m11_m13 = rbind(m11_m13,j)
+                  append(vector_id,id)
+                  z = 1
+                  m11_m13 = rbind(m11_m13,k)
+                  append(vector_id,id)
+                }else{
+                  m11_m13 = rbind(m11_m13,k)
+                  append(vector_id,id)
+                }
+              }else if(k$s7 == 0){ # contrafactual sin hijos
+                if(z == 0){
+                  id = id + 1
+                  m11_m13 = rbind(m11_m13,j)
+                  append(vector_id,id)
+                  z = 1
+                  m11_m13 = rbind(m11_m13,k)
+                  append(vector_id,id)
+                }else{
+                  m11_m13 = rbind(m11_m13,k)
+                  append(vector_id,id)
+                }
               }
             }
           }
@@ -144,30 +146,16 @@ for(i in 1:15){
     }
   }
 }
+hola = filter(mujeres2011,mujeres2011$region == i,mujeres2011$s7 == 0,mujeres2011$edad > 9, mujeres2011$region == 1, mujeres2011$ytrabaj == 0)
+length(hola$region)
+View(m11_m13)
+m11_m13 = cbind(m11_m13, vector_id)
+write.csv(m11_m13,"m11m13.csv")
 
-#contador = 1
-#for(i in 1:length(mujeres2011$region)){
-#  z = 0
-#  i = mujeres2011[i,]
-#  for(j in 1:length(mujeres2013$region)){
-#    j = mujeres2013[j,]
-#    if(i$region == j$region){
-#      if(i$sexo == j$sexo){
-#        if(i$edad == j$edad - 2){
-#          if(i$s7 == 0){
-#            if(i$s8 == j$s6 - 2){ # contrafactual con hijos
-#              z = 1
-#            }else if(j$s6 == 0){   # contrafactual sin hijos
-#              z = 2
-#            }
-#          }
-#        }
-#      }
-#    }
-#  }
-#  if(z != 0){
-    #print(i)
-#  }
-#}
 
-#View(m11.m13)
+##### write.csv(df, "mi_df.csv") #####
+#The RStudio console returns the error message "Error in match.names(clabs, 
+#names(xi)) : names do not match previous names".
+#The reason for this is that the column names of the first and the second data 
+#frame are not the same.
+
