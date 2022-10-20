@@ -42,5 +42,4 @@ for i in diccionario.keys():     #Hay que ajustarlo para los cuestionarios de di
             elif (j[0]["pco2"] == 2) and k[0]["pco2"] == 6:
                 if j[0]["nv"] > j[0]["edad"] - k[0]["edad"]:
                     df.at[j[1], "nv"] = j[0]["edad"] - k[0]["edad"]
-
 df.to_csv("Modelo jefes de hogar/casen_2015.csv", index=False)
