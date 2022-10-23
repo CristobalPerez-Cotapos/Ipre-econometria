@@ -314,7 +314,8 @@ for(i in 1:15){
 
 
 m15_m17 = cbind(m15_m17, vector_id)
-write.csv(m15_m17,"m15m17.csv")
+View(m15_m17)
+write.xlsx(m15_m17,file = "m15_m17.xlsx")
 
 ##### write.csv(df, "mi_df.csv") #####
 #The RStudio console returns the error message "Error in match.names(clabs, 
