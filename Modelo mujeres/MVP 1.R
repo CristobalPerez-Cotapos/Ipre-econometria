@@ -88,12 +88,11 @@ View(mujeres_2017)
 # Yitg=g*DitEvent+g*DitAge+g*DitYear+itg
 #casen_2011 = filter(casen_2011$sexo == )
 
-#### 2011 - 2013 ####
-#### importa: region, sexo, edad nhijos, ephijo, esc y e6b
+
+# 2011 - 2013 -------------------------------------------------------------
 m11_m13 = data.frame(matrix(nrow = 0,ncol = 11))
 colnames(m11_m13) = c15
 
-#### 2011-2013
 id = 0
 vector_id = c()
 
@@ -162,14 +161,13 @@ for(i in 1:15){
 
 
 m11_m13 = cbind(m11_m13, vector_id)
-View(m11_m13)
 write.csv(m11_m13,"m11m13.csv")
 
 
+# 2013 - 2015 -------------------------------------------------------------
 m13_m15 = data.frame(matrix(nrow = 0,ncol = 11))
 colnames(m13_m15) = c15
 
-#### 2013-2015
 id = 0
 vector_id = c()
 
@@ -182,13 +180,13 @@ for(i in 1:15){
     View(m13_m15)
     for(j in 1:length(alternativa3$region)){
       z = 0
-      print(paste("j es:", j))
+      #print(paste("j es:", j))
       cantidad_match_con = 0
       cantidad_match_sin = 0
       print(id)
       j = alternativa3[j, ]
       for(k in 1:length(alternativa5$region)){
-        print(paste("k es:", k))
+        #print(paste("k es:", k))
         k = alternativa5[k, ]
         if(j$edad == k$edad - 2){ # acá iba j$sexo == k$sexo
           if(j$edad == k$edad - 2){
@@ -241,11 +239,10 @@ m13_m15 = cbind(m13_m15, vector_id)
 write.csv(m13_m15,"m13m15.csv")
 
 
-
+# 2015 - 2017 -------------------------------------------------------------
 m15_m17 = data.frame(matrix(nrow = 0,ncol = 11))
 colnames(m15_m17) = c15
 
-#### 2015-2017
 id = 0
 vector_id = c()
 
@@ -258,13 +255,13 @@ for(i in 1:15){
     View(m15_m17)
     for(j in 1:length(alternativa5$region)){
       z = 0
-      print(paste("j es:", j))
+      #print(paste("j es:", j))
       cantidad_match_con = 0
       cantidad_match_sin = 0
       print(id)
       j = alternativa5[j, ]
       for(k in 1:length(alternativa7$region)){
-        print(paste("k es:", k))
+        #print(paste("k es:", k))
         k = alternativa7[k, ]
         if(j$edad == k$edad - 2){ # acá iba j$sexo == k$sexo
           if(j$edad == k$edad - 2){
