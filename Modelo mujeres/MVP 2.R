@@ -1,6 +1,5 @@
 library(dplyr)
 library(readxl)
-#install.packages("openxlsx")
 library(openxlsx)
 
 
@@ -164,7 +163,9 @@ for(i in 1:15){
 
 
 m11_m13 = cbind(m11_m13, vector_id)
-write.csv(m11_m13,"m11m13.csv")
+View(m11_m13)
+write.xlsx(m11_m13,file = "m11_m13.xlsx")
+
 
 
 # 2013 - 2015 -------------------------------------------------------------
