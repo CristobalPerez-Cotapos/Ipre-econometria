@@ -51,4 +51,4 @@ summary(modelo_5)
 
 modelo_6 = lm(BDD$ytrabaj ~ multiplicacion + BDD$edad + numero_en_mach
               + vector_hijos + BDD$esc + BDD$horas)
-summary(modelo_5)
+summary(modelo_6)
