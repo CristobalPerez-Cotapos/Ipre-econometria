@@ -3,10 +3,10 @@ library(readxl)
 library(openxlsx)
 
 
-casen_2011 <- read.csv("C:/Users/trini/OneDrive/Escritorio/GITHUB COSAS/Ipre-econometria/Datos_limpios_arreglados/casen_2011.csv", header=FALSE)
-casen_2013 <- read.csv("C:/Users/trini/OneDrive/Escritorio/GITHUB COSAS/Ipre-econometria/Datos_limpios_arreglados/casen_2013.csv", header=FALSE)
-casen_2015 <- read.csv("C:/Users/trini/OneDrive/Escritorio/GITHUB COSAS/Ipre-econometria/Datos_limpios_arreglados/casen_2015.csv", header=FALSE)
-casen_2017 <- read.csv("C:/Users/trini/OneDrive/Escritorio/GITHUB COSAS/Ipre-econometria/Datos_limpios_arreglados/casen_2017.csv", header=FALSE)
+casen_2011 <- read.csv("C:/Users/cpere/Desktop/Libros Ingeniería/Sexto semestre/Ipre-econometria/Datos_limpios_arreglados/casen_2011.csv", header=FALSE)
+casen_2013 <- read.csv("C:/Users/cpere/Desktop/Libros Ingeniería/Sexto semestre/Ipre-econometria/Datos_limpios_arreglados/casen_2013.csv", header=FALSE)
+casen_2015 <- read.csv("C:/Users/cpere/Desktop/Libros Ingeniería/Sexto semestre/Ipre-econometria/Datos_limpios_arreglados/casen_2015.csv", header=FALSE)
+casen_2017 <- read.csv("C:/Users/cpere/Desktop/Libros Ingeniería/Sexto semestre/Ipre-econometria/Datos_limpios_arreglados/casen_2017.csv", header=FALSE)
 
 c11 = c("region", "sexo", "edad", "nhijos", "ephijo","ytrabaj", "ytrabajh","horas","tsec","esc","filo")
 colnames(casen_2011) = c11
@@ -101,7 +101,7 @@ vector_id = c()
 for(i in 1:15){
   for(h in 1:4){
     alternativa1 = filter(mujeres_2011,mujeres_2011$region == i,mujeres_2011$nhijos == 0,mujeres_2011$edad > 9,mujeres_2011$esc == h)
-    alternativa3 = filter(mujeres_2013,mujeres_2013$region == i,mujeres_2013$edad > 9, mujeres_2013$esc == h)
+    alternativa3 = filter(mujeres_2013,mujeres_2013$region == i,mujeres_2013$edad > 11, mujeres_2013$esc == h)
     #print(vector_id)
     #print(id)
     View(m11_m13)
@@ -112,44 +112,48 @@ for(i in 1:15){
       cantidad_match_sin = 0
       print(id)
       j = alternativa1[j, ]
-      for(k in 1:length(alternativa3$region)){
-        #print(paste("k es:", k))
-        k = alternativa3[k, ]
-        if(j$edad == k$edad - 2){ # acá iba j$sexo == k$sexo
-          if(j$edad == k$edad - 2){
-            if(j$esc == k$esc || j$esc == k$esc - 1){
-              if(j$nhijos == 0){
-                if(cantidad_match_con < 2){ # contrafactual con hijos
-                  if(k$nhijos > 0){
-                    if(z == 0){ # agregamos primer match
-                      id = id + 1
-                      m11_m13 = rbind(m11_m13,j)
-                      vector_id = append(vector_id,id)
-                      z = 1
-                      m11_m13 = rbind(m11_m13,k)
-                      vector_id = append(vector_id,id)
-                      cantidad_match_con = cantidad_match_con + 1
-                    }else{ # ya tenemos otros match
-                      m11_m13 = rbind(m11_m13,k)
-                      vector_id = append(vector_id,id)
-                      cantidad_match_con = cantidad_match_con + 1
+      if (length(alternativa1$region > 0)){
+        for(k in 1:length(alternativa3$region)){
+          #print(paste("k es:", k))
+          k = alternativa3[k, ]
+          if(j$edad == k$edad - 2){ # acá iba j$sexo == k$sexo
+            if(j$edad == k$edad - 2){
+              if(j$esc == k$esc || j$esc == k$esc - 1){
+                if(j$nhijos == 0){
+                  if(cantidad_match_con < 2){ # contrafactual con hijos
+                    if(k$nhijos > 0){
+                      if(z == 0){ # agregamos primer match
+                        id = id + 1
+                        m11_m13 = rbind(m11_m13,j)
+                        vector_id = append(vector_id,id)
+                        z = 1
+                        m11_m13 = rbind(m11_m13,k)
+                        vector_id = append(vector_id,id)
+                        cantidad_match_con = cantidad_match_con + 1
+                      }else{ # ya tenemos otros match
+                        m11_m13 = rbind(m11_m13,k)
+                        vector_id = append(vector_id,id)
+                        cantidad_match_con = cantidad_match_con + 1
+                      }
+                    }  
+                  }else if(cantidad_match_sin < 2){ # contrafactual sin hijos
+                    if(k$nhijos == 0){
+                      if(z == 0){ # agregamos primer match
+                        id = id + 1
+                        m11_m13 = rbind(m11_m13,j)
+                        vector_id = append(vector_id,id)
+                        z = 1
+                        m11_m13 = rbind(m11_m13,k)
+                        vector_id = append(vector_id,id)
+                        cantidad_match_sin = cantidad_match_sin + 1
+                      }else{ # ya tenemos otros match
+                        m11_m13 = rbind(m11_m13,k)
+                        vector_id = append(vector_id,id)
+                        cantidad_match_sin = cantidad_match_sin + 1
+                      }
                     }
-                  }  
-                }else if(cantidad_match_sin < 2){ # contrafactual sin hijos
-                  if(k$nhijos == 0){
-                    if(z == 0){ # agregamos primer match
-                      id = id + 1
-                      m11_m13 = rbind(m11_m13,j)
-                      vector_id = append(vector_id,id)
-                      z = 1
-                      m11_m13 = rbind(m11_m13,k)
-                      vector_id = append(vector_id,id)
-                      cantidad_match_sin = cantidad_match_sin + 1
-                    }else{ # ya tenemos otros match
-                      m11_m13 = rbind(m11_m13,k)
-                      vector_id = append(vector_id,id)
-                      cantidad_match_sin = cantidad_match_sin + 1
-                    }
+                  }else{
+                    break
                   }
                 }
               }
