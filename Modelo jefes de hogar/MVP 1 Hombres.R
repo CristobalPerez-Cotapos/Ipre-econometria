@@ -7,24 +7,19 @@ casen_2013 <- read.csv("C:/Users/trini/OneDrive/Escritorio/GITHUB COSAS/Ipre-eco
 casen_2015 <- read.csv("C:/Users/trini/OneDrive/Escritorio/GITHUB COSAS/Ipre-econometria/Modelo jefes de hogar/casen_2015.csv", header=FALSE)
 casen_2017 <- read.csv("C:/Users/trini/OneDrive/Escritorio/GITHUB COSAS/Ipre-econometria/Modelo jefes de hogar/casen_2017.csv", header=FALSE)
 
-View(casen_2011)
-View(casen_2013)
-View(casen_2015)
-View(casen_2017)
-
 c11 = c("region", "sexo", "edad", "nhijos", "ephijo","ytrabaj", "ytrabajh","horas","tsec","esc","folio", "ecivil", "parentesco","ephijoh")
 colnames(casen_2011) = c11
 colnames(casen_2013) = c11
 casen_2011 = casen_2011[-1,]
 casen_2013 = casen_2013[-1,]
-#### colnames(casen_2015) = c11
+colnames(casen_2015) = c11
 colnames(casen_2017) = c11
-#### casen_2015 = casen_2015[-1,]
+casen_2015 = casen_2015[-1,]
 casen_2017 = casen_2017[-1,]
 
 View(casen_2011)
 View(casen_2013)
-#View(casen_2015)
+View(casen_2015)
 View(casen_2017)
 
 casen_2011$region = as.numeric(casen_2011$region)
@@ -55,20 +50,20 @@ casen_2013$folio = as.numeric(casen_2013$folio)
 casen_2013$ecivil = as.numeric(casen_2013$ecivil)
 casen_2013$parentesco = as.numeric(casen_2013$parentesco)
 casen_2013$ephijoh = as.numeric(casen_2013$ephijoh)
-#casen_2015$region = as.numeric(casen_2015$region)
-#casen_2015$sexo = as.numeric(casen_2015$sexo)
-#casen_2015$edad = as.numeric(casen_2015$edad)
-#casen_2015$nhijos = as.numeric(casen_2015$nhijos)
-#casen_2015$ephijo = as.numeric(casen_2015$ephijo)
-#casen_2015$ytrabaj = as.numeric(casen_2015$ytrabaj)
-#casen_2015$ytrabajh = as.numeric(casen_2015$ytrabajh)
-#casen_2015$horas = as.numeric(casen_2015$horas)
-#casen_2015$tsec = as.numeric(casen_2015$tsec)
-#casen_2015$esc = as.numeric(casen_2015$esc)
-#casen_2015$folio = as.numeric(casen_2015$folio)
-#casen_2015$ecivil = as.numeric(casen_2015$ecivil)
-#casen_2015$parentesco = as.numeric(casen_2015$parentesco)
-#casen_2015$ephijoh = as.numeric(casen_2015$ephijoh)
+casen_2015$region = as.numeric(casen_2015$region)
+casen_2015$sexo = as.numeric(casen_2015$sexo)
+casen_2015$edad = as.numeric(casen_2015$edad)
+casen_2015$nhijos = as.numeric(casen_2015$nhijos)
+casen_2015$ephijo = as.numeric(casen_2015$ephijo)
+casen_2015$ytrabaj = as.numeric(casen_2015$ytrabaj)
+casen_2015$ytrabajh = as.numeric(casen_2015$ytrabajh)
+casen_2015$horas = as.numeric(casen_2015$horas)
+casen_2015$tsec = as.numeric(casen_2015$tsec)
+casen_2015$esc = as.numeric(casen_2015$esc)
+casen_2015$folio = as.numeric(casen_2015$folio)
+casen_2015$ecivil = as.numeric(casen_2015$ecivil)
+casen_2015$parentesco = as.numeric(casen_2015$parentesco)
+casen_2015$ephijoh = as.numeric(casen_2015$ephijoh)
 casen_2017$region = as.numeric(casen_2017$region)
 casen_2017$sexo = as.numeric(casen_2017$sexo)
 casen_2017$edad = as.numeric(casen_2017$edad)
@@ -87,22 +82,22 @@ casen_2017$ephijoh = as.numeric(casen_2017$ephijoh)
 #### Quitamos valores NA
 casen_2011 = na.omit(casen_2011)
 casen_2013 = na.omit(casen_2013)
-#casen_2015 = na.omit(casen_2015)
+casen_2015 = na.omit(casen_2015)
 casen_2017 = na.omit(casen_2017)
 
 hombres_2011 = filter(casen_2011,casen_2011$nhijos != 99.0, casen_2011$sexo == 1)
 hombres_2013 = filter(casen_2013,casen_2013$nhijos != 99.0, casen_2013$sexo == 1)
-#hombres_2015 = filter(casen_2015,casen_2015$nhijos != 99.0, casen_2015$sexo == 1)
+hombres_2015 = filter(casen_2015,casen_2015$nhijos != 99.0, casen_2015$sexo == 1)
 hombres_2017 = filter(casen_2017,casen_2017$nhijos != 99.0, casen_2017$sexo == 1)
 
 dim.data.frame(hombres_2011)
 dim.data.frame(hombres_2013)
-#dim.data.frame(hombres_2015)
+dim.data.frame(hombres_2015)
 dim.data.frame(hombres_2017)
 
 View(hombres_2011)
 View(hombres_2013)
-#View(hombres_2015)
+View(hombres_2015)
 View(hombres_2017)
 
 
