@@ -101,7 +101,7 @@ vector_id = c()
 for(i in 1:15){
   for(h in 1:4){
     alternativa1 = filter(mujeres_2011,mujeres_2011$region == i,mujeres_2011$nhijos == 0,mujeres_2011$edad > 9,mujeres_2011$esc == h)
-    alternativa3 = filter(mujeres_2013,mujeres_2013$region == i,mujeres_2013$edad > 11, mujeres_2013$esc == h)
+    alternativa3 = filter(mujeres_2013,mujeres_2013$region == i,mujeres_2013$edad > 11)
     #print(vector_id)
     #print(id)
     View(m11_m13)
@@ -121,7 +121,7 @@ for(i in 1:15){
               if(j$esc == k$esc || j$esc == k$esc - 1){
                 if(j$nhijos == 0){
                   if(cantidad_match_con < 2){ # contrafactual con hijos
-                    if(k$nhijos > 0){
+                    if(k$nhijos > 0 & k$ephijo >= j$edad){
                       if(z == 0){ # agregamos primer match
                         id = id + 1
                         m11_m13 = rbind(m11_m13,j)
@@ -182,7 +182,7 @@ vector_id = c()
 for(i in 1:15){
   for(h in 1:4){
     alternativa3 = filter(mujeres_2013,mujeres_2013$region == i,mujeres_2013$nhijos == 0,mujeres_2013$edad > 9,mujeres_2013$esc == h)
-    alternativa5 = filter(mujeres_2015,mujeres_2015$region == i,mujeres_2015$edad > 9, mujeres_2015$esc == h)
+    alternativa5 = filter(mujeres_2015,mujeres_2015$region == i,mujeres_2015$edad > 9)
     #print(vector_id)
     #print(id)
     View(m13_m15)
@@ -201,7 +201,7 @@ for(i in 1:15){
             if(j$esc == k$esc || j$esc == k$esc - 1){
               if(j$nhijos == 0){
                 if(cantidad_match_con < 2){ # contrafactual con hijos
-                  if(k$nhijos > 0){
+                  if(k$nhijos > 0 & k$ephijo >= j$edad){
                     if(z == 0){ # agregamos primer match
                       id = id + 1
                       m13_m15 = rbind(m13_m15,j)
@@ -257,7 +257,7 @@ vector_id = c()
 for(i in 1:15){
   for(h in 1:4){
     alternativa5 = filter(mujeres_2015,mujeres_2015$region == i,mujeres_2015$nhijos == 0,mujeres_2015$edad > 9,mujeres_2015$esc == h)
-    alternativa7 = filter(mujeres_2017,mujeres_2017$region == i,mujeres_2017$edad > 9, mujeres_2017$esc == h)
+    alternativa7 = filter(mujeres_2017,mujeres_2017$region == i,mujeres_2017$edad > 9)
     #print(vector_id)
     #print(id)
     View(m15_m17)
@@ -276,7 +276,7 @@ for(i in 1:15){
             if(j$esc == k$esc || j$esc == k$esc - 1){
               if(j$nhijos == 0){
                 if(cantidad_match_con < 2){ # contrafactual con hijos
-                  if(k$nhijos > 0){
+                  if(k$nhijos > 0 & k$ephijo >= j$edad){
                     if(z == 0){ # agregamos primer match
                       id = id + 1
                       m15_m17 = rbind(m15_m17,j)
@@ -322,6 +322,170 @@ m15_m17 = cbind(m15_m17, vector_id)
 View(m15_m17)
 write.xlsx(m15_m17,file = "m15_m17.xlsx")
 
+
+
+# 2011 - 2015 -------------------------------------------------------------
+
+m11_m15 = data.frame(matrix(nrow = 0,ncol = 11))
+colnames(m11_m15) = c15
+
+id = 0
+vector_id = c()
+
+for(i in 1:15){
+  for(h in 1:4){
+    alternativa1 = filter(mujeres_2011,mujeres_2011$region == i,mujeres_2011$nhijos == 0,mujeres_2011$edad > 9,mujeres_2011$esc == h)
+    alternativa5 = filter(mujeres_2015,mujeres_2015$region == i,mujeres_2015$edad > 11)
+    #print(vector_id)
+    #print(id)
+    View(m11_m15)
+    for(j in 1:length(alternativa1$region)){
+      z = 0
+      #print(paste("j es:", j))
+      cantidad_match_con = 0
+      cantidad_match_sin = 0
+      print(id)
+      j = alternativa1[j, ]
+      if (length(alternativa1$region > 0)){
+        for(k in 1:length(alternativa5$region)){
+          #print(paste("k es:", k))
+          k = alternativa5[k, ]
+          if(j$edad == k$edad - 4){ # acá iba j$sexo == k$sexo
+            if(j$edad == k$edad - 4){
+              if(j$esc == k$esc || j$esc == k$esc - 1){
+                if(j$nhijos == 0){
+                  if(cantidad_match_con < 2){ # contrafactual con hijos
+                    if(k$nhijos > 0 & k$ephijo >= j$edad){
+                      if(z == 0){ # agregamos primer match
+                        id = id + 1
+                        m11_m15 = rbind(m11_m15,j)
+                        vector_id = append(vector_id,id)
+                        z = 1
+                        m11_m15 = rbind(m11_m15,k)
+                        vector_id = append(vector_id,id)
+                        cantidad_match_con = cantidad_match_con + 1
+                      }else{ # ya tenemos otros match
+                        m11_m15 = rbind(m11_m15,k)
+                        vector_id = append(vector_id,id)
+                        cantidad_match_con = cantidad_match_con + 1
+                      }
+                    }  
+                  }else if(cantidad_match_sin < 2){ # contrafactual sin hijos
+                    if(k$nhijos == 0){
+                      if(z == 0){ # agregamos primer match
+                        id = id + 1
+                        m11_m15 = rbind(m11_m15,j)
+                        vector_id = append(vector_id,id)
+                        z = 1
+                        m11_m15 = rbind(m11_m15,k)
+                        vector_id = append(vector_id,id)
+                        cantidad_match_sin = cantidad_match_sin + 1
+                      }else{ # ya tenemos otros match
+                        m11_m15 = rbind(m11_m15,k)
+                        vector_id = append(vector_id,id)
+                        cantidad_match_sin = cantidad_match_sin + 1
+                      }
+                    }
+                  }else{
+                    break
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }  
+}
+
+
+m11_m15 = cbind(m11_m15, vector_id)
+View(m11_m15)
+write.xlsx(m11_m15,file = "m11_m15.xlsx")
+
+
+
+
+# 2011 - 2017 -------------------------------------------------------------
+
+m11_m17 = data.frame(matrix(nrow = 0,ncol = 11))
+colnames(m11_m17) = c15
+
+id = 0
+vector_id = c()
+
+for(i in 1:15){
+  for(h in 1:4){
+    alternativa1 = filter(mujeres_2011,mujeres_2011$region == i,mujeres_2011$nhijos == 0,mujeres_2011$edad > 9,mujeres_2011$esc == h)
+    alternativa7 = filter(mujeres_2017,mujeres_2017$region == i,mujeres_2017$edad > 11)
+    #print(vector_id)
+    #print(id)
+    View(m11_m17)
+    for(j in 1:length(alternativa1$region)){
+      z = 0
+      #print(paste("j es:", j))
+      cantidad_match_con = 0
+      cantidad_match_sin = 0
+      print(id)
+      j = alternativa1[j, ]
+      if (length(alternativa1$region > 0)){
+        for(k in 1:length(alternativa5$region)){
+          #print(paste("k es:", k))
+          k = alternativa7[k, ]
+          if(j$edad == k$edad - 6){ # acá iba j$sexo == k$sexo
+            if(j$edad == k$edad - 6){
+              if(j$esc == k$esc || j$esc == k$esc - 1){
+                if(j$nhijos == 0){
+                  if(cantidad_match_con < 2){ # contrafactual con hijos
+                    if(k$nhijos > 0 & k$ephijo >= j$edad){
+                      if(z == 0){ # agregamos primer match
+                        id = id + 1
+                        m11_m17 = rbind(m11_m17,j)
+                        vector_id = append(vector_id,id)
+                        z = 1
+                        m11_m17 = rbind(m11_m17,k)
+                        vector_id = append(vector_id,id)
+                        cantidad_match_con = cantidad_match_con + 1
+                      }else{ # ya tenemos otros match
+                        m11_m17 = rbind(m11_m17,k)
+                        vector_id = append(vector_id,id)
+                        cantidad_match_con = cantidad_match_con + 1
+                      }
+                    }  
+                  }else if(cantidad_match_sin < 2){ # contrafactual sin hijos
+                    if(k$nhijos == 0){
+                      if(z == 0){ # agregamos primer match
+                        id = id + 1
+                        m11_m17 = rbind(m11_m17,j)
+                        vector_id = append(vector_id,id)
+                        z = 1
+                        m11_m17 = rbind(m11_m17,k)
+                        vector_id = append(vector_id,id)
+                        cantidad_match_sin = cantidad_match_sin + 1
+                      }else{ # ya tenemos otros match
+                        m11_m17 = rbind(m11_m17,k)
+                        vector_id = append(vector_id,id)
+                        cantidad_match_sin = cantidad_match_sin + 1
+                      }
+                    }
+                  }else{
+                    break
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }  
+}
+
+
+m11_m17 = cbind(m11_m17, vector_id)
+View(m11_m17)
+write.xlsx(m11_m17,file = "m11_m17.xlsx")
 ##### write.csv(df, "mi_df.csv") #####
 #The RStudio console returns the error message "Error in match.names(clabs, 
 #names(xi)) : names do not match previous names".

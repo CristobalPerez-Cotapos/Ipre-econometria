@@ -130,12 +130,19 @@ for(i in 1:15){
         #print(paste("k es:", k))
         k = alternativa3[k, ]
         if(j$edad == k$edad - 2){ # acá iba j$sexo == k$sexo
+          print(1)
           if(j$edad == k$edad - 2){
+            print(2)
             if(j$esc == k$esc || j$esc == k$esc - 1){
+              print(3)
               if(j$nhijos == 0){
+                print(4)
                 if(cantidad_match_con < 2){ # contrafactual con hijos
+                  print(5)
                   if(k$nhijos > 0 & k$ephijo >= j$edad){
+                    print(6)
                     if(z == 0){ # agregamos primer match
+                      print(7)
                       id = id + 1
                       h11_h13 = rbind(h11_h13,j)
                       vector_id = append(vector_id,id)
@@ -209,12 +216,19 @@ for(i in 1:15){
         #print(paste("k es:", k))
         k = alternativa5[k, ]
         if(j$edad == k$edad - 2){ # acá iba j$sexo == k$sexo
+          print(1)
           if(j$edad == k$edad - 2){
+            print(2)
             if(j$esc == k$esc || j$esc == k$esc - 1){
+              print(3)
               if(j$nhijos == 0){
+                print(4)
                 if(cantidad_match_con < 2){ # contrafactual con hijos
+                  print(5)
                   if(k$nhijos > 0 & k$ephijo >= j$edad){
+                    print(6)
                     if(z == 0){ # agregamos primer match
+                      print(7)
                       id = id + 1
                       h13_h15 = rbind(h13_h15,j)
                       vector_id = append(vector_id,id)
