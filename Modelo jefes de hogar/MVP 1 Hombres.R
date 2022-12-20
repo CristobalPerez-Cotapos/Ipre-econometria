@@ -139,7 +139,10 @@ for(i in 1:15){
                 print(4)
                 if(cantidad_match_con < 2){ # contrafactual con hijos
                   print(5)
-                  if(k$nhijos > 0 & k$ephijo >= j$edad){
+                  print(k$nhijos)
+                  print(k$ephijoh)
+                  print(j$edad)
+                  if(k$nhijos > 0 & k$ephijoh >= j$edad){
                     print(6)
                     if(z == 0){ # agregamos primer match
                       print(7)
@@ -225,7 +228,7 @@ for(i in 1:15){
                 print(4)
                 if(cantidad_match_con < 2){ # contrafactual con hijos
                   print(5)
-                  if(k$nhijos > 0 & k$ephijo >= j$edad){
+                  if(k$nhijos > 0 & k$ephijoh >= j$edad){
                     print(6)
                     if(z == 0){ # agregamos primer match
                       print(7)
