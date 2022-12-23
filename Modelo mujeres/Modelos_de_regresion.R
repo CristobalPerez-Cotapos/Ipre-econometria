@@ -4,7 +4,7 @@ library(dplyr)
 #BDD <- read_excel("C:/Users/cpere/Desktop/Libros Ingeniería/Sexto semestre/Ipre-econometria/Modelo mujeres/m15_m17.xlsx")
 #BDD <- read_excel("C:/Users/trini/OneDrive/Escritorio/GITHUB COSAS/Ipre-econometria/Modelo mujeres/m11_m13.xlsx")
 library(readr)
-BDD <- read_csv("C:/Users/cpere/Desktop/Libros Ingeniería/Sexto semestre/Ipre-econometria/Modelo mujeres/2011_2013.csv")
+BDD <- read_csv("C:/Users/cpere/Desktop/Libros Ingeniería/Sexto semestre/Ipre-econometria/Modelo mujeres/2011_2017.csv")
 
 View(BDD)
 
@@ -69,14 +69,12 @@ media_6 = mean(bdd_filtrada_6$ytrabaj)
 medias = c(media_0, media_1, media_2, media_3, media_4, media_5, media_6)
 numeros = c(0,1,2,3,4,5,6)
 
-plot(numeros, medias/1000, ylab = "Ingreso", xlab = "Tiempo desde el primer hijo")
+plot(numeros, medias/1000, ylab = "Income [chilean pesos]", xlab = "Years since the first child")
 
-
-plot(BDD$nhijos, BDD$ytrabaj/1000, ylab = "Ingreso", xlab = "Número de hijos")
 
 
 modelo_1 = lm(BDD$ytrabaj ~ BDD$nhijos)
-summary(modelo)
+summary(modelo_1)
 #modelo_log = lm(log(BDD$ytrabaj) ~ BDD$nhijos)
 #summary(modelo_log)
 
@@ -106,42 +104,55 @@ summary(modelo_6)
 
 
 
-bdd_filtrada = BDD
-
-bdd_filtrada_0 = filter(bdd_filtrada, bdd_filtrada$nhijos == 0)
-bdd_filtrada_1 = filter(bdd_filtrada, bdd_filtrada$nhijos == 1)
-bdd_filtrada_2 = filter(bdd_filtrada, bdd_filtrada$nhijos == 2)
-bdd_filtrada_3 = filter(bdd_filtrada, bdd_filtrada$nhijos == 3)
-bdd_filtrada_4 = filter(bdd_filtrada, bdd_filtrada$nhijos == 4)
-bdd_filtrada_5 = filter(bdd_filtrada, bdd_filtrada$nhijos == 5)
-bdd_filtrada_6 = filter(bdd_filtrada, bdd_filtrada$nhijos == 6)
-bdd_filtrada_7 = filter(bdd_filtrada, bdd_filtrada$nhijos == 7)
-bdd_filtrada_8 = filter(bdd_filtrada, bdd_filtrada$nhijos == 8)
 
 
-media_0 = mean(bdd_filtrada_0$ytrabaj)
-media_1 = mean(bdd_filtrada_1$ytrabaj)
-media_2 = mean(bdd_filtrada_2$ytrabaj)
-media_3 = mean(bdd_filtrada_3$ytrabaj)
-media_4 = mean(bdd_filtrada_4$ytrabaj)
-media_5 = mean(bdd_filtrada_5$ytrabaj)
-media_6 = mean(bdd_filtrada_6$ytrabaj)
-media_7 = mean(bdd_filtrada_7$ytrabaj)
-media_8 = mean(bdd_filtrada_8$ytrabaj)
+
+
+BDD <- read_csv("C:/Users/cpere/Desktop/Libros Ingeniería/Sexto semestre/Ipre-econometria/Modelo mujeres/casen_2013.csv")
+
+primer_filtro = filter(BDD, BDD$sexo == 1, BDD$edad >= 18)
+
+
+
+
+
+
+bdd_filtrada = primer_filtro
+
+bdd_filtrada_0 = filter(bdd_filtrada, bdd_filtrada$s5 == 0)
+bdd_filtrada_1 = filter(bdd_filtrada, bdd_filtrada$s5 == 1)
+bdd_filtrada_2 = filter(bdd_filtrada, bdd_filtrada$s5 == 2)
+bdd_filtrada_3 = filter(bdd_filtrada, bdd_filtrada$s5 == 3)
+bdd_filtrada_4 = filter(bdd_filtrada, bdd_filtrada$s5 == 4)
+bdd_filtrada_5 = filter(bdd_filtrada, bdd_filtrada$s5 == 5)
+bdd_filtrada_6 = filter(bdd_filtrada, bdd_filtrada$s5 == 6)
+
+
+
+media_0 = mean(bdd_filtrada_0$yoprcor)
+media_1 = mean(bdd_filtrada_1$yoprcor)
+media_2 = mean(bdd_filtrada_2$yoprcor)
+media_3 = mean(bdd_filtrada_3$yoprcor)
+media_4 = mean(bdd_filtrada_4$yoprcor)
+media_5 = mean(bdd_filtrada_5$yoprcor)
+media_6 = mean(bdd_filtrada_6$yoprcor)
+
 
 medias = c(media_0, media_1, media_2, media_3, media_4, media_5, media_6)
 numeros = c(0,1,2,3,4,5,6)
 
-plot(numeros, medias/1000, ylab = "income", xlab = "number of children",
+plot(numeros, medias/1000, ylab = "Income [chilean pesos]", xlab = "Number of children",
      type = "b") #2017
-lines(numeros, medias/1000, ylab = "income", xlab = "number of children",
+lines(numeros, medias/1000, ylab = "Income [chilean pesos]", xlab = "Number of children",
      type = "b", col="red") #2015
-lines(numeros, medias/1000, ylab = "income", xlab = "number of children",
+lines(numeros, medias/1000, ylab = "Income [chilean pesos]", xlab = "Number of children",
      type = "b", col="green") #2013
+lines(numeros, medias/1000, ylab = "Income [chilean pesos]", xlab = "Number of children",
+      type = "b", col="blue") #2011
 
 legend("topright",                                       # Add legend to plot
-       legend = c("2011 - 2017", "2011 - 2015", "2011 - 2013"),
-       col = c("black", "red", "green"),
+       legend = c("2017", "2015", "2013", "2011"),
+       col = c("black", "red", "green", "blue"),
        lty = 1)
 
 
