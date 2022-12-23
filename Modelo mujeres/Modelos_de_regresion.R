@@ -74,6 +74,7 @@ plot(numeros, medias/1000, ylab = "Ingreso", xlab = "Tiempo desde el primer hijo
 
 plot(BDD$nhijos, BDD$ytrabaj/1000, ylab = "Ingreso", xlab = "Número de hijos")
 
+
 modelo_1 = lm(BDD$ytrabaj ~ BDD$nhijos)
 summary(modelo)
 #modelo_log = lm(log(BDD$ytrabaj) ~ BDD$nhijos)
@@ -99,4 +100,49 @@ summary(modelo_5)
 modelo_6 = lm(BDD$ytrabaj ~ multiplicacion + BDD$edad + numero_en_mach
               + BDD$esc + BDD$horas + BDD$region + BDD$tsec)
 summary(modelo_6)
+
+
+
+
+
+
+bdd_filtrada = BDD
+
+bdd_filtrada_0 = filter(bdd_filtrada, bdd_filtrada$nhijos == 0)
+bdd_filtrada_1 = filter(bdd_filtrada, bdd_filtrada$nhijos == 1)
+bdd_filtrada_2 = filter(bdd_filtrada, bdd_filtrada$nhijos == 2)
+bdd_filtrada_3 = filter(bdd_filtrada, bdd_filtrada$nhijos == 3)
+bdd_filtrada_4 = filter(bdd_filtrada, bdd_filtrada$nhijos == 4)
+bdd_filtrada_5 = filter(bdd_filtrada, bdd_filtrada$nhijos == 5)
+bdd_filtrada_6 = filter(bdd_filtrada, bdd_filtrada$nhijos == 6)
+bdd_filtrada_7 = filter(bdd_filtrada, bdd_filtrada$nhijos == 7)
+bdd_filtrada_8 = filter(bdd_filtrada, bdd_filtrada$nhijos == 8)
+
+
+media_0 = mean(bdd_filtrada_0$ytrabaj)
+media_1 = mean(bdd_filtrada_1$ytrabaj)
+media_2 = mean(bdd_filtrada_2$ytrabaj)
+media_3 = mean(bdd_filtrada_3$ytrabaj)
+media_4 = mean(bdd_filtrada_4$ytrabaj)
+media_5 = mean(bdd_filtrada_5$ytrabaj)
+media_6 = mean(bdd_filtrada_6$ytrabaj)
+media_7 = mean(bdd_filtrada_7$ytrabaj)
+media_8 = mean(bdd_filtrada_8$ytrabaj)
+
+medias = c(media_0, media_1, media_2, media_3, media_4, media_5, media_6)
+numeros = c(0,1,2,3,4,5,6)
+
+plot(numeros, medias/1000, ylab = "income", xlab = "number of children",
+     type = "b") #2017
+lines(numeros, medias/1000, ylab = "income", xlab = "number of children",
+     type = "b", col="red") #2015
+lines(numeros, medias/1000, ylab = "income", xlab = "number of children",
+     type = "b", col="green") #2013
+
+legend("topright",                                       # Add legend to plot
+       legend = c("2011 - 2017", "2011 - 2015", "2011 - 2013"),
+       col = c("black", "red", "green"),
+       lty = 1)
+
+
 

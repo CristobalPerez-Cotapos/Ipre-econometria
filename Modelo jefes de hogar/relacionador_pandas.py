@@ -80,9 +80,9 @@ def relacionador(año_1, año_2, sexo):
     resultado.to_csv(f"{año_1}_{año_2}_sexo{sexo}.csv", index=False)
 
 
-relacionador(2011, 2013, 1)
-relacionador(2013, 2015, 1)
-relacionador(2015, 2017, 1)
+#relacionador(2011, 2013, 1)
+#relacionador(2013, 2015, 1)
+#relacionador(2015, 2017, 1)
 relacionador(2011, 2015, 1)
 relacionador(2011, 2017, 1)
-relacionador(2013, 2017, 1)
+#relacionador(2013, 2017, 1)
