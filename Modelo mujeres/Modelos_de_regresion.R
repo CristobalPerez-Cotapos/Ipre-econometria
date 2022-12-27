@@ -4,7 +4,8 @@ library(dplyr)
 #BDD <- read_excel("C:/Users/cpere/Desktop/Libros Ingeniería/Sexto semestre/Ipre-econometria/Modelo mujeres/m15_m17.xlsx")
 #BDD <- read_excel("C:/Users/trini/OneDrive/Escritorio/GITHUB COSAS/Ipre-econometria/Modelo mujeres/m11_m13.xlsx")
 library(readr)
-BDD <- read_csv("C:/Users/cpere/Desktop/Libros Ingeniería/Sexto semestre/Ipre-econometria/Modelo mujeres/2011_2017.csv")
+BDD <- read.csv("C:/Users/trini/OneDrive/Escritorio/GITHUB COSAS/Ipre-econometria/Modelo mujeres/2013_2017.csv")
+
 
 View(BDD)
 
@@ -43,6 +44,33 @@ vector_hijos[1:50]
 vector_tiempo_hijo[1:50]
 
 
+##### Agregado ##### 
+#menos_uno = c()
+# [1] 161204
+# [1] 42014
+#hola <- read.csv("C:/Users/trini/OneDrive/Escritorio/GITHUB COSAS/Ipre-econometria/Modelo mujeres/2011_2013.csv")
+#View(hola)
+#numero_id = c(1:42014)
+#for (i in 1:length(numero_id)){ # recorro id
+  #print(i)
+  #contador = 0
+  #for (j in 1:length(hola$id)){ # recorro obs
+   # if (contador == 0){
+    #  if (hola$id[j] == i){
+     #   menos_uno = append(menos_uno, hola$ytrabaj[j])
+      #  contador = 1
+      #}
+    #}else{
+     # break
+    #}
+  #}
+#}
+#menos_uno
+#media_n1 = mean(hola$ytrabaj)
+#media_n1
+##### terminado #####
+
+
 bdd_filtrada = cbind(BDD, vector_tiempo_hijo)
 
 bdd_filtrada = filter(bdd_filtrada, bdd_filtrada$vector_tiempo_hijo != 99.0, bdd_filtrada$vector_tiempo_hijo >= 0)
@@ -66,11 +94,10 @@ media_4 = mean(bdd_filtrada_4$ytrabaj)
 media_5 = mean(bdd_filtrada_5$ytrabaj)
 media_6 = mean(bdd_filtrada_6$ytrabaj)
 
-medias = c(media_0, media_1, media_2, media_3, media_4, media_5, media_6)
-numeros = c(0,1,2,3,4,5,6)
+medias = c(media_n1, media_0, media_1, media_2, media_3, media_4)
+numeros = c(-1,0,1,2,3,4)
 
-plot(numeros, medias/1000, ylab = "Income [chilean pesos]", xlab = "Years since the first child")
-
+plot(numeros, medias/1000, ylab = "Income [chilean pesos]", xlab = "Years since the first child",pch = 20,cex = 4,cex.lab = 2,cex.axis = 1.5)
 
 
 modelo_1 = lm(BDD$ytrabaj ~ BDD$nhijos)
@@ -99,11 +126,21 @@ modelo_6 = lm(BDD$ytrabaj ~ multiplicacion + BDD$edad + numero_en_mach
               + BDD$esc + BDD$horas + BDD$region + BDD$tsec)
 summary(modelo_6)
 
+# plot de multiplicación y income
+one = c()
+cero = c()
+for (i in 1:length(multiplicacion)){
+  if (multiplicacion[i] == 1){
+    one = append(one,BDD$ytrabaj[i])
+  }else{
+    cero = append(cero,BDD$ytrabaj[i])
+  }
+}
+media_cero_mult = mean(cero)
+media_one_mult = mean(one)
+vector_multi= c(media_cero_mult,media_one_mult)
 
-
-
-
-
+plot(c(0,1),vector_multi/1000,xlab = "Multiplication", ylab = "Income [chilean pesos]",xlim = c(0, 1),pch = 20,cex = 4,cex.lab = 2,cex.axis = 1.5)
 
 
 
